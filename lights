@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Phue\Transport\Exception\ConnectionException;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Finder\Finder;
+
+$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv->load();
+$dotenv->required(['HUE_BRIDGE_HOST', 'HUE_BRIDGE_USER']);
+
+$hueClient = new \Phue\Client(getenv('HUE_BRIDGE_HOST'), getenv('HUE_BRIDGE_USER'));
+try {
+    if (!$hueClient->sendCommand(new \Phue\Command\IsAuthorized)) {
+        throw new RuntimeException('You are not authorized to access the Hue bridge.');
+    }
+} catch (ConnectionException $e) {
+    throw new RuntimeException('Could not connect to the Hue bridge.');
+}
+
+$application = new Application();
+
+foreach ((new Finder())->in(__DIR__ . '/commands')->files() as $command) {
+    $command = 'Lights\\Commands' . str_replace(
+            ['/', '.php'],
+            ['\\', ''],
+            array_reverse(explode(__DIR__ . '/commands', $command->getPathname(), 2))[0]
+        );
+
+    if (is_subclass_of($command, Command::class) &&
+        !(new ReflectionClass($command))->isAbstract()) {
+        $application->add(new $command($hueClient));
+    }
+}
+
+$application->run();

@@ -1,0 +1,15 @@
+{
+    "require": {
+        "php": "^7.1.3",
+        "sqmk/phue": "^1.7",
+        "symfony/console": "^4.2",
+        "symfony/finder": "^4.2",
+        "vlucas/phpdotenv": "^3.0",
+        "nesbot/carbon": "^2.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lights\\Commands\\": "commands/"
+        }
+    }
+}
