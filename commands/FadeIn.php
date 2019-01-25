@@ -32,8 +32,8 @@ class FadeIn extends Command
     protected function configure()
     {
         $this->setName('fadein')
-            ->setDescription('Fades in the lights.')
-            ->setHelp('This command fades in the light in the bedroom.')
+            ->setDescription('Fade in a light.')
+            ->setHelp('This command will fade in the given light.')
             ->addArgument(
                 'minutes',
                 InputArgument::OPTIONAL,
