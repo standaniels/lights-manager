@@ -75,7 +75,7 @@ class FadeIn extends Command
                 $groupCommand->on(true);
 
                 $scheduleCommand = new CreateSchedule($this->commandId(), $time, $groupCommand);
-                $scheduleCommand->description('Fade in light ' . $light->getName());
+                $scheduleCommand->description('Fade in light '.$light->getName());
 
                 $this->hueClient->sendCommand($scheduleCommand);
 
