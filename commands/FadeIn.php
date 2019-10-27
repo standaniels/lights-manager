@@ -70,7 +70,7 @@ class FadeIn extends Command
             if ($this->calculateBrightness($step) > ($brightness ?? 0)) {
                 $brightness = $this->calculateBrightness($step);
                 $groupCommand->brightness($brightness);
-                $groupCommand->hue(17889);
+                $groupCommand->hue(6244);
                 $groupCommand->saturation(149);
                 $groupCommand->on(true);
 
